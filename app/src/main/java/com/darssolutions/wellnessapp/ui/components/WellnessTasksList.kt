@@ -3,23 +3,30 @@ package com.darssolutions.wellnessapp.ui.components
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.darssolutions.wellnessapp.models.WellnessTask
 
-private fun getWellnessTasks() = List(30) { i -> WellnessTask(i, "Task #$i") }
-
 @Composable
 fun WellnessTasksList(
-    modifier: Modifier = Modifier,
-    list: List<WellnessTask> = rememberSaveable { getWellnessTasks() }
+    list: List<WellnessTask>,
+    onCheckedTask: (WellnessTask, Boolean) -> Unit,
+    onCloseTask: (WellnessTask) -> Unit,
+    modifier: Modifier = Modifier
 ) {
     LazyColumn(
-        modifier = modifier
+        modifier = modifier,
     ) {
-        items(list) { task ->
-            WellnessTaskItem(taskName = task.label)
+        items(
+            items = list,
+            key = { task -> task.id }
+        ) { task ->
+            WellnessTaskItem(
+                taskName = task.label,
+                checked = task.checked,
+                onCheckedChange = { checked -> onCheckedTask(task, checked) },
+                onClose = { onCloseTask(task) }
+            )
         }
     }
 }
@@ -27,5 +34,11 @@ fun WellnessTasksList(
 @Preview(showBackground = true)
 @Composable
 fun WellnessTasksListPreview() {
-    WellnessTasksList()
+    val list = List(30) { i -> WellnessTask(i, "Task # $i") }
+    
+    WellnessTasksList(
+        list = list,
+        onCheckedTask = { _, _ -> },
+        onCloseTask = { }
+    )
 }

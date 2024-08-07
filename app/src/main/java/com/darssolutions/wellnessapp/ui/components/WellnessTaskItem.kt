@@ -19,20 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun WellnessTaskItem(taskName: String, modifier: Modifier = Modifier){
-    var checkedState by rememberSaveable { mutableStateOf(false)}
-
-    WellnessTaskItem(
-        taskName = taskName,
-        checked = checkedState,
-        onCheckedChange = { newValue -> checkedState = newValue },
-        onClose = {}, // TODO: we will implement this later!
-        modifier = modifier,
-    )
-}
-
-@Composable
-private fun WellnessTaskItem(
+fun WellnessTaskItem(
     taskName: String,
     checked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
@@ -45,15 +32,15 @@ private fun WellnessTaskItem(
         Text(
             modifier = Modifier
                 .weight(1f)
-                .padding(start = 16.dp), text = taskName
+                .padding(start = 16.dp),
+            text = taskName
         )
         Checkbox(
-            checked = checked, onCheckedChange = onCheckedChange
+            checked = checked,
+            onCheckedChange = onCheckedChange
         )
         IconButton(onClick = onClose) {
-            Icon(
-                Icons.Filled.Close, contentDescription = "Close"
-            )
+            Icon(Icons.Filled.Close, contentDescription = "Close")
         }
     }
 }
@@ -61,5 +48,10 @@ private fun WellnessTaskItem(
 @Preview(showBackground = true)
 @Composable
 fun WellnessTaskItemPreview() {
-    WellnessTaskItem("Task 1", modifier = Modifier)
+    WellnessTaskItem(
+        taskName = "Task 1",
+        checked = true,
+        onCheckedChange = { },
+        onClose = { }
+    )
 }
